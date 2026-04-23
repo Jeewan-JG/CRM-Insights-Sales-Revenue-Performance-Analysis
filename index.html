@@ -1,1 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CRM Sales Performance Dashboard</title>
+  <style>
+    :root{
+      --primary:#6aa84f;
+      --primary-dark:#2f6b3d;
+      --bg:#eef2e6;
+      --card:#ffffff;
+      --text:#333333;
+      --muted:#666666;
+      --border:#e5e7eb;
+      --code-bg:#0f172a;
+      --code-text:#e5e7eb;
+      --link:#2563eb;
+    }
 
+    *{box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+
+    body{
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.7;
+    }
+
+    .hero{
+      background:linear-gradient(120deg, var(--primary-dark), var(--primary));
+      color:#fff;
+      padding:70px 20px;
+    }
+
+    .hero-content{
+      max-width:1100px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:28px;
+      flex-wrap:wrap;
+    }
+
+    .profile-pic{
+      width:140px;
+      height:140px;
+      border-radius:50%;
+      object-fit:cover;
+      display:block;
+      box-shadow:0 8px 20px rgba(0,0,0,0.25);
+      border:4px solid rgba(255,255,255,0.35);
+      flex-shrink:0;
+    }
+
+    .hero-text{
+      text-align:left;
+      max-width:760px;
+    }
+
+    .hero-text h1{
+      margin:0 0 12px;
+      font-size:2.8rem;
+      line-height:1.2;
+    }
+
+    .hero-text p{
+      margin:0;
+      font-size:1.15rem;
+      opacity:0.96;
+    }
+
+    .container{
+      max-width:1100px;
+      margin:30px auto 60px;
+      padding:0 20px;
+    }
+
+    .banner-image{
+      margin:30px auto 40px;
+      text-align:center;
+    }
+
+    .banner-image img{
+      width:100%;
+      max-width:900px;
+      border-radius:14px;
+      box-shadow:0 10px 25px rgba(0,0,0,0.15);
+      display:block;
+      margin:0 auto;
+    }
+
+    .card{
+      background:var(--card);
+      border-radius:12px;
+      padding:28px;
+      margin-bottom:24px;
+      box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    h2{
+      color:var(--primary-dark);
+      margin-top:0;
+    }
+
+    h3{
+      color:#1f2937;
+      margin-top:28px;
+      margin-bottom:10px;
+    }
+
+    p{margin:0 0 16px;}
+    ul{padding-left:22px;}
+    li{margin-bottom:8px;}
+
+    .toc ol{
+      padding-left:32px;
+      margin:0;
+    }
+
+    .toc li{
+      margin-bottom:10px;
+      font-size:1.05rem;
+    }
+
+    .toc a{
+      color:var(--link);
+      text-decoration:underline;
+      font-weight:600;
+    }
+
+    .toc a:hover{
+      opacity:0.85;
+    }
+
+    img{
+      max-width:100%;
+      display:block;
+      margin:20px auto;
+      border-radius:10px;
+      box-shadow:0 4px 12px rgba(0,0,0,0.12);
+    }
+
+    .dashboard-wrap{
+      position:relative;
+      width:100%;
+      height:0;
+      padding-bottom:70%;
+      border-radius:10px;
+      overflow:hidden;
+      background:#f0f0f0;
+    }
+
+    .dashboard-wrap iframe{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      border:none;
+    }
+
+    pre{
+      background:var(--code-bg);
+      color:var(--code-text);
+      padding:18px;
+      border-radius:10px;
+      overflow-x:auto;
+      font-size:0.95rem;
+      line-height:1.5;
+      margin:14px 0 22px;
+    }
+
+    code{
+      font-family:Consolas, Monaco, monospace;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:10px;
+    }
+
+    th, td{
+      border:1px solid var(--border);
+      padding:12px;
+      text-align:left;
+      vertical-align:top;
+    }
+
+    th{
+      background:#f9fafb;
+    }
+
+    .footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:0.95rem;
+      margin-top:8px;
+    }
+
+    @media (max-width: 768px){
+      .hero{
+        padding:55px 20px;
+      }
+
+      .hero-content{
+        flex-direction:column;
+        text-align:center;
+      }
+
+      .hero-text{
+        text-align:center;
+      }
+
+      .hero-text h1{
+        font-size:2.1rem;
+      }
+
+      .hero-text p{
+        font-size:1rem;
+      }
+
+      .profile-pic{
+        width:110px;
+        height:110px;
+      }
+
+      .banner-image{
+        margin:20px auto 30px;
+      }
+
+      .card{
+        padding:22px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+    <div class="hero-content">
+      <img src="profile_pic.png" alt="Jeewan Gurung profile picture" class="profile-pic">
+
+      <div class="hero-text">
+        <h1>Case Study: CRM Sales Performance Dashboard</h1>
+        <p>Tools used: Excel • SQL • Tableau.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+
+    <div class="banner-image">
+      <img src="ddd.png" alt="CRM Project Banner">
+    </div>
+
+    <section class="card" id="overview">
+      <h2>Project Overview</h2>
+      <p>
+        This project analyzes CRM sales data to understand overall business performance across products,
+        sales agents, regions, and accounts. The objective is to uncover key sales patterns, evaluate
+        revenue contribution, track pipeline outcomes, and build a dashboard that supports better
+        business decisions.
+      </p>
+      <p>The analysis focuses on identifying:</p>
+      <ul>
+        <li>Total revenue, win rate, total deals, and average deal size</li>
+        <li>Revenue contribution by product, sales agent, and region</li>
+        <li>Top-performing sales agents and key customer accounts</li>
+        <li>Won vs lost deal patterns</li>
+        <li>Insights that can support sales strategy and performance improvement</li>
+      </ul>
+    </section>
+
+    <section class="card toc" id="table-of-contents">
+      <h2>📑 Table of Contents</h2>
+      <ol>
+        <li><a href="#business-problem">Business Problem</a></li>
+        <li><a href="#dataset">Dataset</a></li>
+        <li><a href="#tools-used">Tools Used</a></li>
+        <li><a href="#data-cleaning">Data Preparation</a></li>
+        <li><a href="#sql-analysis">SQL Analysis</a></li>
+        <li><a href="#key-insights">Key Insights</a></li>
+        <li><a href="#dashboard">Dashboard</a></li>
+        <li><a href="#recommendations">Business Recommendations</a></li>
+        <li><a href="#project-structure">Project Structure</a></li>
+      </ol>
+    </section>
+
+    <section class="card" id="business-problem">
+      <h2>Business Problem</h2>
+      <p>Businesses need clear visibility into sales performance to make smarter decisions.</p>
+      <p>
+        This CRM project helps answer:
+      </p>
+      <ul>
+        <li>Which products generate the most revenue</li>
+        <li>Which sales agents perform best in terms of revenue and win rate</li>
+        <li>How revenue is distributed across regions</li>
+        <li>Which accounts contribute the most to the business</li>
+        <li>Where performance gaps exist in the sales pipeline</li>
+      </ul>
+    </section>
+
+    <section class="card" id="dataset">
+      <h2>📂 Dataset</h2>
+      <p>The dataset contains CRM sales records including:</p>
+      <ul>
+        <li><code>Account</code></li>
+        <li><code>Close Date</code></li>
+        <li><code>Deal Stage</code></li>
+        <li><code>Manager</code></li>
+        <li><code>Opportunity Id</code></li>
+        <li><code>Product</code></li>
+        <li><code>Regional Office</code></li>
+        <li><code>Sales Agent</code></li>
+        <li><code>Sector</code></li>
+        <li><code>Series</code></li>
+        <li><code>% Change</code></li>
+        <li><code>Average Deal Size</code></li>
+        <li><code>Close Value</code></li>
+        <li><code>Previous Revenue</code></li>
+        <li><code>Revenue</code></li>
+        <li><code>Sales Price</code></li>
+        <li><code>Win Rate</code></li>
+      </ul>
+      <p>The dataset was prepared and then analyzed using SQL and visualized in Tableau.</p>
+    </section>
+
+    <section class="card" id="tools-used">
+      <h2>Tools Used</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Tool</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Excel</td>
+            <td>Initial exploration and structure checking</td>
+          </tr>
+          <tr>
+            <td>SQL</td>
+            <td>Data analysis, aggregation, and KPI logic</td>
+          </tr>
+          <tr>
+            <td>Tableau</td>
+            <td>Dashboard design and data visualization</td>
+          </tr>
+          <tr>
+            <td>GitHub</td>
+            <td>Project portfolio hosting</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card" id="data-cleaning">
+      <h2>Data Preparation</h2>
+      <p>Before building the dashboard, the dataset was reviewed and prepared for analysis.</p>
+      <p>This step included:</p>
+      <ul>
+        <li>checking field names and data types</li>
+        <li>validating numeric and date fields</li>
+        <li>organizing records for dashboard-ready analysis</li>
+        <li>creating summary calculations such as revenue, win rate, and average deal size</li>
+      </ul>
+
+      <h3>Example Preparation Query</h3>
+      <pre><code>SELECT
+    account,
+    close_date,
+    deal_stage,
+    manager,
+    opportunity_id,
+    product,
+    regional_office,
+    sales_agent,
+    close_value,
+    revenue,
+    sales_price
+FROM crm_sales;</code></pre>
+    </section>
+
+    <section class="card" id="sql-analysis">
+      <h2>SQL Analysis</h2>
+
+      <h3>Revenue by Region</h3>
+      <p>This query calculates total revenue generated in each regional office.</p>
+      <pre><code>SELECT
+    regional_office,
+    SUM(revenue) AS total_revenue
+FROM crm_sales
+GROUP BY regional_office
+ORDER BY total_revenue DESC;</code></pre>
+
+      <h3>Win Rate by Sales Agent</h3>
+      <pre><code>SELECT
+    sales_agent,
+    ROUND(
+        100.0 * SUM(CASE WHEN deal_stage = 'Won' THEN 1 ELSE 0 END) / COUNT(*),
+        2
+    ) AS win_rate_pct
+FROM crm_sales
+GROUP BY sales_agent
+ORDER BY win_rate_pct DESC;</code></pre>
+
+      <h3>Top Accounts by Revenue</h3>
+      <pre><code>SELECT
+    account,
+    SUM(revenue) AS total_revenue
+FROM crm_sales
+GROUP BY account
+ORDER BY total_revenue DESC
+LIMIT 10;</code></pre>
+
+      <h3>Revenue by Product</h3>
+      <pre><code>SELECT
+    product,
+    SUM(revenue) AS total_revenue
+FROM crm_sales
+GROUP BY product
+ORDER BY total_revenue DESC;</code></pre>
+
+      <h3>Won vs Lost Deals</h3>
+      <pre><code>SELECT
+    deal_stage,
+    COUNT(*) AS total_deals,
+    SUM(revenue) AS total_revenue
+FROM crm_sales
+GROUP BY deal_stage;</code></pre>
+    </section>
+
+    <section class="card" id="key-insights">
+      <h2>📊 Key Insights</h2>
+      <p>Based on the dashboard and analysis, several important business patterns were identified.</p>
+
+      <h3>1. Product Performance</h3>
+      <p>Revenue is concentrated among a smaller number of products, with GTX Basic emerging as a major contributor.</p>
+      <p>Some products contribute very little, suggesting areas for review or repositioning.</p>
+
+      <h3>2. Sales Agent Contribution</h3>
+      <p>Revenue contribution is uneven across sales agents, with a few high performers driving a large share of total sales.</p>
+      <p>This suggests the need to identify and replicate top-performing sales strategies.</p>
+
+      <h3>3. Win Rate Patterns</h3>
+      <p>Win rates vary across agents, indicating that some team members convert opportunities more effectively than others.</p>
+      <p>Lower-performing agents may benefit from support, training, or lead quality improvements.</p>
+
+      <h3>4. Account Concentration</h3>
+      <p>Top accounts generate significantly more revenue than others.</p>
+      <p>This creates strong account opportunities, but also suggests concentration risk if too much revenue depends on a few clients.</p>
+
+      <h3>5. Regional Performance</h3>
+      <p>Revenue varies by region, which can help guide resource allocation and sales planning.</p>
+    </section>
+
+    <section class="card" id="dashboard">
+      <h2>📈 Dashboard</h2>
+      <p>
+        The final analysis was visualized using a multi-page Tableau dashboard with Overview, Analysis, and Data sections.
+      </p>
+      <p>The dashboard highlights:</p>
+      <ul>
+        <li>High-level KPI tracking</li>
+        <li>Sales and revenue trends over time</li>
+        <li>Product and region-level breakdowns</li>
+        <li>Sales agent and account performance</li>
+        <li>Record-level CRM dataset exploration</li>
+      </ul>
+
+      <h3>Dashboard Insights</h3>
+      <p>From the dashboard:</p>
+      <ul>
+        <li>GTX Basic is the top product by revenue contribution</li>
+        <li>Revenue is concentrated among a few key sales agents and accounts</li>
+        <li>Win rates vary across agents, showing opportunities for coaching and performance improvement</li>
+        <li>Regional revenue patterns reveal uneven sales performance across locations</li>
+      </ul>
+
+      <h3>Overview Dashboard</h3>
+      <img src="DOverview.png" alt="CRM Overview Dashboard">
+
+      <h3>Analysis Dashboard</h3>
+      <img src="Analysis.png" alt="CRM Analysis Dashboard">
+
+      <h3>Dataset Dashboard</h3>
+      <img src="Dataset.png" alt="CRM Dataset Dashboard">
+    </section>
+
+    <section class="card" id="recommendations">
+      <h2>Business Recommendations</h2>
+      <ul>
+        <li>Focus more effort on top-performing products while reassessing weaker products.</li>
+        <li>Use top-performing sales agents as a benchmark for training and best practices.</li>
+        <li>Provide additional support to low win-rate agents to improve conversion performance.</li>
+        <li>Reduce dependence on a small number of top accounts by growing the wider customer base.</li>
+        <li>Use region-level performance insights to improve targeting and sales planning.</li>
+      </ul>
+    </section>
+
+    <section class="card" id="project-structure">
+      <h2>Project Structure</h2>
+      <ul>
+        <li><strong>README.md</strong> – repository overview</li>
+        <li><strong>index.html</strong> – GitHub Pages portfolio webpage</li>
+        <li><strong>ddd.png</strong> – project banner image</li>
+        <li><strong>DOverview.png</strong> – overview dashboard image</li>
+        <li><strong>Analysis.png</strong> – analysis dashboard image</li>
+        <li><strong>Dataset.png</strong> – data dashboard image</li>
+        <li><strong>profile_pic.png</strong> – profile picture</li>
+      </ul>
+    </section>
+
+    <div class="footer">
+      Built as a data analysis portfolio project by Jeewan Gurung.
+    </div>
+
+  </div>
+
+</body>
+</html>
