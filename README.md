@@ -181,7 +181,7 @@ The dashboard highlights:
 
 ### Dashboard Preview
 
-![Overview](Doverview.png)  
+![Overview](DOverview.png)  
 ![Analysis](Analysis.png)  
 ![Dataset](Dataset.png)
 
@@ -207,7 +207,7 @@ The dashboard highlights:
 
 - README.md – project overview  
 - index.html – portfolio webpage  
-- Doverview.png – dashboard overview  
+- DOverview.png – dashboard overview  
 - Analysis.png – analysis dashboard  
 - Dataset.png – dataset view  
 - ddd.png – main dashboard preview  
